@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: trigger role
+      import_role:
+        name: tomcat

@@ -1,0 +1,23 @@
+---
+- name: install jdk
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - java-11-openjdk-devel
+    - tomcat
+    - tomcat-webapps
+    - tomcat-admin-webapps
+  notify:
+    - start tomcat
+
+- name: copy tomcat-user.xml
+  template:
+    src: tomcat-users.xml
+    dest: /usr/share/tomcat/conf/
+- name: deploy war
+  get_url:
+    url: http://csci.viu.ca/~barskym/teaching/DM2012/labs/LAB6/Lab6A.war
+    dest: /usr/share/tomcat/webapps/
+  notify:
+    - restart tomcat
